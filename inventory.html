@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.2">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Home Inventory Tracker&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://unpkg.com/dynamsoft-javascript-barcodes@9.6.20/dist/dbr.scanner.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #f4f4f4;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #333;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>h1 { text-align: center; color: #2c3e50; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#scanner-container { width: 100%; height: 300px; border: 2px dashed #ccc; border-radius: 8px; margin: 15px 0; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input, button, select { padding: 10px; margin: 5px 0; width: 100%; border-radius: 5px; border: 1px solid #ddd; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button { background: #3498db; color: white; font-weight: bold; cursor: pointer; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>button:hover { background: #2980b9; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.item { padding: 10px; margin: 8px 0; background: #ecf0f1; border-radius: 5px; display: flex; justify-content: space-between; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.item button { width: auto; padding: 5px 10px; font-size: 12px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#search { margin-top: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.actions { display: flex; gap: 5px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.actions button { flex: 1; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.count { text-align: center; font-size: 1.2em; margin: 15px 0; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;🏠 Home Inventory&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="scanner-container"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button id="startScan"&gt;Start Scanner&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button id="stopScan"&gt;Stop Scanner&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;hr/&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h3&gt;Add Item (Manual)&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="barcode" placeholder="Barcode / QR Code" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="text" id="name" placeholder="Item Name" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;input type="number" id="quantity" placeholder="Quantity" value="1" min="1" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button id="addItem"&gt;Add to Inventory&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="search"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;input type="text" id="searchInput" placeholder="Search items..." /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="count"&gt;Total Items: &lt;strong id="totalCount"&gt;0&lt;/strong&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="inventory"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Initialize inventory from localStorage</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let inventory = JSON.parse(localStorage.getItem('homeInventory')) || {};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Dynamsoft Barcode Scanner Config</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let scanner = null;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('startScan').onclick = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (scanner) return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>scanner = await Dynamsoft.DBR.BarcodeScanner.createInstance();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>scanner.setUIElement(document.getElementById('scanner-container'));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>scanner.onFrameRead = results =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (results.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const barcode = results[0].barcodeText;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById('barcode').value = barcode;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>scanner.close();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>scanner = null;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById('stopScan').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>document.getElementById('startScan').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>alert(`Scanned: ${barcode}\nNow enter item name and add.`);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>scanner.onPlayed = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('startScan').disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('stopScan').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>await scanner.open();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('stopScan').onclick = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (scanner) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scanner.close();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>scanner = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('startScan').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('stopScan').disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Add item</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('addItem').onclick = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const barcode = document.getElementById('barcode').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const name = document.getElementById('name').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const qty = parseInt(document.getElementById('quantity').value) || 1;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!barcode || !name) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>alert("Please fill barcode and name");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!inventory[barcode]) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>inventory[barcode] = { name, quantity: 0 };</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>inventory[barcode].quantity += qty;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>saveAndRender();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>clearInputs();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Remove item</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function removeItem(barcode) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (confirm(`Remove ${inventory[barcode].name}?`)) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>delete inventory[barcode];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>saveAndRender();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Adjust quantity</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function adjustQty(barcode, change) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (inventory[barcode].quantity + change &lt;= 0 &amp;&amp; change &lt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>removeItem(barcode);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>inventory[barcode].quantity += change;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (inventory[barcode].quantity === 0) delete inventory[barcode];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>saveAndRender();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Save &amp; Render</p>
+<p class="p1"><span class="Apple-converted-space">    </span>function saveAndRender() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>localStorage.setItem('homeInventory', JSON.stringify(inventory));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>renderInventory();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function renderInventory() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const list = document.getElementById('inventory');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const search = document.getElementById('searchInput').value.toLowerCase();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const items = Object.entries(inventory)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.filter(([_, item]) =&gt; item.name.toLowerCase().includes(search) || _.includes(search))</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.sort((a, b) =&gt; a[1].name.localeCompare(b[1].name));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>list.innerHTML = items.map(([barcode, item]) =&gt; `</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;strong&gt;${item.name}&lt;/strong&gt;&lt;br/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;small&gt;Barcode: ${barcode}&lt;/small&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div style="text-align:right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;strong&gt;${item.quantity}&lt;/strong&gt;&lt;br/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onclick="adjustQty('${barcode}', 1)"&gt;+1&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onclick="adjustQty('${barcode}', -1)"&gt;-1&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button style="background:#e74c3c" onclick="removeItem('${barcode}')"&gt;Remove&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`).join('');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('totalCount').textContent = items.reduce((sum, [_, item]) =&gt; sum + item.quantity, 0);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function clearInputs() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('barcode').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('name').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('quantity').value = '1';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Search</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('searchInput').addEventListener('input', renderInventory);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Enter key to add</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('name').addEventListener('keypress', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (e.key === 'Enter') document.getElementById('addItem').click();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Initial render</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderInventory();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
